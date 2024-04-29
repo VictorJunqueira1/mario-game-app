@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.game-board {
+    width: 100%;
+    height: 500px;
+    border-bottom: 20px solid rgb(12, 229, 12);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(#87CEEB, #E0F6FF);
+}
+
+.pipe {
+    position: absolute;
+    bottom: 0;
+    width: 80px;
+    right: 0;
+    animation: pipe-animation 1.5s infinite linear;
+}
+
+.mario {
+    width: 150px;
+    position: absolute;
+    bottom: 0;
+}
+
+.jump {
+    animation: jump 500ms;
+}
+
+.clouds {
+    width: 500px;
+    position: absolute;
+    animation: clouds-animation 15s infinite linear;
+}
+
+button {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#score {
+    font-size: 24px;
+    color: #000;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.game-board {
+    width: 100%;
+    height: 500px;
+    border-bottom: 20px solid rgb(12, 229, 12);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(#87CEEB, #E0F6FF);
+}
+
+.pipe {
+    position: absolute;
+    bottom: 0;
+    width: 80px;
+    right: 0;
+}
+
+#login {
+    text-align: center;
+    padding-top: 50px;
+}
+
+#login input, #login button {
+    font-size: 16px;
+    padding: 10px;
+    margin: 5px;
+}
+
+#player-scores {
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    font-size: 20px;
+}
+
+.clouds {
+    width: 500px;
+    position: absolute;
+    animation: clouds-animation 15s infinite linear;
+}
+
+#total-score {
+    font-size: 20px;
+    color: #000;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+@keyframes pipe-animation {
+    from {
+        right: -80;
+    }
+
+    to {
+        right: 100%;
+    }
+}
+
+@keyframes jump {
+    0% {
+        bottom: 0;
+    }
+
+    40% {
+        bottom: 180px;
+    }
+
+    50% {
+        bottom: 180px;
+    }
+
+    60% {
+        bottom: 180px;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes clouds-animation {
+    from {
+        right: -500px;
+    }
+
+    to {
+        right: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Ajustes para dispositivos móveis */
+    .mario {
+        width: 100px; /* Tamanho menor para o Mario */
+    }
+    #start-button, #restart-button, #login-button {
+        padding: 15px 30px; /* Botões maiores para facilitar o toque */
+    }
+}

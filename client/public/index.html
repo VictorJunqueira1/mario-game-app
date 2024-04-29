@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarioJS | Victor Junqueira</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="login">
+        <input type="text" id="player-name" placeholder="Digite seu nome">
+        <button id="login-button">Entrar</button>
+    </div>
+    <div id="player-scores"></div>
+    <div id="game-area" style="display: none;">
+        <div class="game-board">
+            <img src="images/clouds.png" alt="clouds" class="clouds">
+            <img src="images/mario.gif" alt="mario" class="mario">
+            <img src="images/pipe.png" alt="pipe" class="pipe" style="display:none;">
+        </div>
+        <div id="player-name-display"></div>
+        <button id="start-button">Iniciar Jogo</button>
+        <button id="restart-button" style="display:none;">Reiniciar Jogo</button>
+        <div id="score">Pontuação: 0</div>
+        <div id="total-score">Maior pontuação: 0</div>
+    </div>
+    <script src="js/script.js"></script>
+    <script>
+        window.onload = async () => {
+            
+
+        }
+    </script>
+</body>
+
+</html>
