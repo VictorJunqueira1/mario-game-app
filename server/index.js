@@ -1,4 +1,4 @@
-import express, { query } from "express";
+import express, { query, urlencoded } from "express";
 import { config } from "dotenv";
 import requestIp from "request-ip";
 import cors from "cors";
@@ -12,6 +12,8 @@ await mysql.connect();
 
 app.use(cors([process.env.APP_BASE_URL]));
 app.use(requestIp.mw());
+app.use(urlencoded({ extended: false }));
+app.use(express.json());
 
 app.get("/", async (request, response) => {
     try {
@@ -24,22 +26,28 @@ app.get("/", async (request, response) => {
     }
 });
 
-app.get("/start", async (request, response) => {
+app.post("/start", async (request, response) => {
     try {
-        const { name } = request.body;
+        const name = request.body.name;
+        let query;
         if (name) {
+            query = "SELECT id FROM users WHERE name = ?"
+            const rows = await mysql.execute(query, [name]);
+            if (Array.isArray(rows) && rows[0].length > 0) {
+                return response.status(409).json({ message: "The provided name is already in use." });
+            }
             const clientIp = request.headers['x-forwarded-for'] || request.clientIp;
-            const query = "INSERT INTO users (name, ip_address) VALUES (?, ?);";
+            query = "INSERT INTO users (name, ip_address) VALUES (?, ?);";
             await mysql.execute(query, [name, clientIp]);
-            return response.status(200).json({ message: "Successfully connected!" });
+            return response.status(200).json({ message: "Started successfully with name " + name });
         }
-        return response.status(400).json({ message: "Started successfully with name " + name });
+        return response.status(400).json({ message: "The field 'name' is required." + name });
     } catch (error) {
         return response.status(500).json({ error });
     }
 });
 
-app.post("/log", async (request, response) => {
+app.patch("/log", async (request, response) => {
     try {
         const { name, points } = request.body;
         if (name && points) {
