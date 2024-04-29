@@ -28,7 +28,7 @@ app.get("/", async (request, response) => {
 
 app.post("/start", async (request, response) => {
     try {
-        const name = request.body.name;
+        const { name, password } = request.body;
         let query;
         if (name) {
             query = "SELECT id FROM users WHERE name = ?"

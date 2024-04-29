@@ -17,6 +17,10 @@ document.querySelector("#login-button").addEventListener("click", async () => {
             throw new Error('Erro ao fazer a requisição: ' + response.status);
         }
 
+        if (response.status == "409") {
+            console.log("O nome de usuário já está em uso...")
+        }
+
         const data = await response.json();
         console.log('Dados recebidos:', data);
 
