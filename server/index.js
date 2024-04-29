@@ -30,19 +30,20 @@ app.post("/start", async (request, response) => {
     try {
         const { name, password } = request.body;
         let query;
-        if (name) {
+        if (name && password) {
             query = "SELECT id FROM users WHERE name = ?"
             const rows = await mysql.execute(query, [name]);
             if (Array.isArray(rows) && rows[0].length > 0) {
                 return response.status(409).json({ message: "The provided name is already in use." });
             }
             const clientIp = request.headers['x-forwarded-for'] || request.clientIp;
-            query = "INSERT INTO users (name, ip_address) VALUES (?, ?);";
-            await mysql.execute(query, [name, clientIp]);
+            query = "INSERT INTO users (name, ip_address, password) VALUES (?, ?, ?);";
+            await mysql.execute(query, [name, clientIp, password]);
             return response.status(200).json({ message: "Started successfully with name " + name });
         }
-        return response.status(400).json({ message: "The field 'name' is required." + name });
+        return response.status(400).json({ message: "The field 'name' and 'password' are required." });
     } catch (error) {
+        console.log(error);
         return response.status(500).json({ error });
     }
 });

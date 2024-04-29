@@ -1,15 +1,16 @@
 let apiUrl = 'http://localhost:3002/start';
 
 document.querySelector("#login-button").addEventListener("click", async () => {
-    const inputName = document.querySelector("#player-name").value;
+    const name = document.querySelector("#player-name").value;
+    const password = document.querySelector("#player-password").value;
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Definindo o cabeçalho Content-Type como application/json
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ // Serializando os dados do formulário para JSON
-                name: inputName
+            body: JSON.stringify({ 
+                name, password
             })
         });
 
@@ -17,7 +18,7 @@ document.querySelector("#login-button").addEventListener("click", async () => {
             throw new Error('Erro ao fazer a requisição: ' + response.status);
         }
 
-        if (response.status == "409") {
+        if (response.status === 409) {
             console.log("O nome de usuário já está em uso...")
         }
 
