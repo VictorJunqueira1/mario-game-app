@@ -31,10 +31,13 @@ app.post("/start", async (request, response) => {
         const { name, password } = request.body;
         let query;
         if (name && password) {
-            query = "SELECT id FROM users WHERE name = ?"
+            query = "SELECT name, ip_address, password FROM users WHERE name = ?"
             const rows = await mysql.execute(query, [name]);
             if (Array.isArray(rows) && rows[0].length > 0) {
-                return response.status(409).json({ message: "The provided name is already in use." });
+                if (name === rows[0].name && password === rows[0].password) {
+                    return response.status(200).json({ message: "Started successfully with name " + name });
+                }
+                return response.status(400).json({ message: "Incorrect credentials!" });
             }
             const clientIp = request.headers['x-forwarded-for'] || request.clientIp;
             query = "INSERT INTO users (name, ip_address, password) VALUES (?, ?, ?);";
