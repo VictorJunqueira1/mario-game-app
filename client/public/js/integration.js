@@ -3,6 +3,11 @@ let apiUrl = 'http://localhost:3002/start';
 document.querySelector("#login-button").addEventListener("click", async () => {
     const name = document.querySelector("#player-name").value;
     const password = document.querySelector("#player-password").value;
+
+    if (!name || !password) {
+        throw new Error('Campos faltantes!');
+    }
+
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',

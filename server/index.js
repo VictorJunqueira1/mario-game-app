@@ -31,7 +31,7 @@ app.post("/start", async (request, response) => {
         const { name, password } = request.body;
         let query;
         if (name && password) {
-            query = "SELECT name, ip_address, password FROM users WHERE name = ? AND password = ?;"
+            query = "SELECT name, ip_address, password FROM users WHERE name = ?;"
             const rows = await mysql.execute(query, [name, password]);
             if (Array.isArray(rows) && rows[0].length > 0) {
                 if (name === rows[0][0].name && password === rows[0][0].password) {
