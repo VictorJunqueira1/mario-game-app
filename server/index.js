@@ -31,10 +31,10 @@ app.post("/start", async (request, response) => {
         const { name, password } = request.body;
         let query;
         if (name && password) {
-            query = "SELECT name, ip_address, password FROM users WHERE name = ?"
-            const rows = await mysql.execute(query, [name]);
+            query = "SELECT name, ip_address, password FROM users WHERE name = ? AND password = ?;"
+            const rows = await mysql.execute(query, [name, password]);
             if (Array.isArray(rows) && rows[0].length > 0) {
-                if (name === rows[0].name && password === rows[0].password) {
+                if (name === rows[0][0].name && password === rows[0][0].password) {
                     return response.status(200).json({ message: "Started successfully with name " + name });
                 }
                 return response.status(400).json({ message: "Incorrect credentials!" });
@@ -46,7 +46,6 @@ app.post("/start", async (request, response) => {
         }
         return response.status(400).json({ message: "The field 'name' and 'password' are required." });
     } catch (error) {
-        console.log(error);
         return response.status(500).json({ error });
     }
 });
