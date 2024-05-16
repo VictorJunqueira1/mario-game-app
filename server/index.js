@@ -29,24 +29,31 @@ app.get("/", async (request, response) => {
 app.post("/start", async (request, response) => {
     try {
         const { name, password } = request.body;
-        let query;
+        let query = "SELECT * FROM users WHERE name = ? AND password = ?;";
         if (name && password) {
-            query = "SELECT name, ip_address, password FROM users WHERE name = ?;"
             const rows = await mysql.execute(query, [name, password]);
-            if (Array.isArray(rows) && rows[0].length > 0) {
-                if (name === rows[0][0].name && password === rows[0][0].password) {
-                    return response.status(200).json({ message: "Started successfully with name " + name });
-                }
-                return response.status(400).json({ message: "Incorrect credentials!" });
+            if (Array.isArray(rows) && rows.length !== 0) {
+                return response.status(204);
             }
-            const clientIp = request.headers['x-forwarded-for'] || request.clientIp;
-            query = "INSERT INTO users (name, ip_address, password) VALUES (?, ?, ?);";
-            await mysql.execute(query, [name, clientIp, password]);
-            return response.status(200).json({ message: "Started successfully with name " + name });
+            return response.status(400).json({ message: "Incorrect credentials!" });
         }
-        return response.status(400).json({ message: "The field 'name' and 'password' are required." });
+        return response.status(400).json({ message: "Please provide name and password correctly!" });
     } catch (error) {
-        return response.status(500).json({ error });
+
+    }
+});
+
+app.post("/invoke", async (request, response) => {
+    try {
+        const { name, password } = request.body;
+        let query = "INSERT INTO users (name, password, ip_address, max_points) VALUES (?,?,?,?);";
+        if (name && password) {
+            await mysql.execute(query, [name, password, 0, 0]);
+            return response.status(201).json({ message: "Created user successfully!" });
+        }
+        return response.status(400).json({ message: "Please provide name and password correctly!" });
+    } catch (error) {
+        return response.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 });
 

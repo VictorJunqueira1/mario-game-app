@@ -1,15 +1,13 @@
-let apiUrl = 'http://localhost:3002/start';
-
 document.querySelector("#login-button").addEventListener("click", async () => {
-    const name = document.querySelector("#player-name").value;
-    const password = document.querySelector("#player-password").value;
+    const name = document.querySelector("#auth-name").value;
+    const password = document.querySelector("#auth-password").value;
 
     if (!name || !password) {
         throw new Error('Campos faltantes!');
     }
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch("http://localhost:3002/start", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,22 +22,11 @@ document.querySelector("#login-button").addEventListener("click", async () => {
         }
 
         if (response.status === 409) {
-            console.log("O nome de usuário já está em uso...")
+            console.log("O nome de usuário já está em uso...");
         }
 
         const data = await response.json();
         console.log('Dados recebidos:', data);
-
-        apiUrl = 'http://localhost:3002/';
-
-        const response2 = await fetch(apiUrl);
-
-        if (!response2.ok) {
-            throw new Error('Erro ao fazer a requisição: ' + response2.status);
-        }
-
-        const data2 = await response2.json();
-        console.log('Dados recebidos:', data2);
     } catch (error) {
         console.error('Erro ao fazer a requisição:', error);
     }

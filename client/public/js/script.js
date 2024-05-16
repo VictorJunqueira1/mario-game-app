@@ -5,9 +5,9 @@ const restartButton = document.getElementById('restart-button');
 const scoreDisplay = document.getElementById('score');
 const totalScoreDisplay = document.getElementById('total-score');
 const loginButton = document.getElementById('login-button');
-const playerNameInput = document.getElementById('player-name');
+const playerNameInput = document.getElementById('auth-name');
 const gameArea = document.getElementById('game-area');
-const loginArea = document.getElementById('login');
+const loginArea = document.querySelector('.auth-viewbox');
 const playerScoresDisplay = document.getElementById('player-scores');
 const playerNameDisplay = document.getElementById('player-name-display');
 
@@ -21,7 +21,8 @@ const updatePlayerNameDisplay = () => {
     playerNameDisplay.innerText = `Jogador atual: ${playerName}`;
 };
 
-loginButton.addEventListener('click', () => {
+loginButton.addEventListener('click', (e) => {
+    e.preventDefault();
     playerName = playerNameInput.value.trim();
     if (playerName) {
         loginArea.style.display = 'none';

@@ -7,11 +7,32 @@
     <title>MarioJS | Victor Junqueira</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <div id="login" style="display: flex; flex-direction: column; align-items: center;">
-        <input type="text" id="player-name" placeholder="Digite seu nome">
-        <input type="password" id="player-password" placeholder="Digite sua senha">
-        <button id="login-button">Entrar</button>
+    <div class="auth-viewbox">
+        <div class="container-auth">
+            <h1 style="text-align: center;">Você já possui uma conta?</h1>
+            <div style="display: flex; align-items: center;">
+                <button id="yes-auth" class="form-button">SIM</button>
+                <button id="no-auth" class="form-button" style="background-color: #f00;">NÃO</button>
+            </div>
+        </div>
+        <div id="auth" class="container-auth hidden">
+            <h1 class="title">Entre com sua conta!</h1>
+            <form class="form" style="display: flex; flex-direction: column; align-items: center;">
+                <input required type="text" id="auth-name" placeholder="Digite seu nome">
+                <input required type="password" id="auth-password" placeholder="Digite sua senha">
+                <button id="login-button">Entrar</button>
+            </form>
+        </div>
+        <div id="register" class="container-auth hidden">
+            <h1 class="title">Crie sua conta!</h1>
+            <form class="form" style="display: flex; flex-direction: column; align-items: center;">
+                <input required type="text" id="register-name" placeholder="Digite seu nome">
+                <input required type="password" id="register-password" placeholder="Digite sua senha">
+                <button class="register">Criar</button>
+            </form>
+        </div>
     </div>
     <div id="player-scores"></div>
     <div id="game-area" style="display: none;">
@@ -28,6 +49,7 @@
     </div>
     <script src="js/script.js"></script>
     <script src="js/integration.js"></script>
+    <script src="js/auth.js"></script>
 </body>
 
 </html>
